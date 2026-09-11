@@ -1,0 +1,102 @@
+LINUX ENUMERATION
+
+$ hostnamectl
+ Static hostname: web-prod-01
+       Icon name: computer-server
+         Chassis: server
+      Machine ID: 8f1a2b3c4d5e67890123456789abcdef
+         Boot ID: 1234567890abcdef1234567890abcdef
+Operating System: Debian GNU/Linux 12 (bookworm)
+          Kernel: Linux 6.1.0-28-amd64
+    Architecture: x86-64
+
+$ whoami
+deploy
+
+$ id
+uid=1001(deploy) gid=1001(deploy) groups=1001(deploy),27(sudo),33(www-data)
+
+$ ip addr show
+2: ens18: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 52:54:00:ab:cd:ef brd ff:ff:ff:ff:ff:ff
+    inet 10.40.50.25/24 brd 10.40.50.255 scope global ens18
+       valid_lft forever preferred_lft forever
+    inet6 fe80::5054:ff:feab:cdef/64 scope link
+       valid_lft forever preferred_lft forever
+
+$ ip route
+default via 10.40.50.1 dev ens18
+10.40.50.0/24 dev ens18 proto kernel scope link src 10.40.50.25
+
+$ cat /etc/hosts
+127.0.0.1       localhost
+127.0.1.1       web-prod-01
+10.40.50.10     db-prod-01.corp.local db-prod-01
+10.40.50.15     gitlab.corp.local gitlab
+
+$ cat /etc/resolv.conf
+search corp.local
+nameserver 10.40.50.5
+nameserver 10.40.50.6
+
+$ ss -tulpn
+Netid State  Recv-Q Send-Q Local Address:Port Peer Address:Port Process
+tcp   LISTEN 0      128    0.0.0.0:22       0.0.0.0:*     users:(("sshd",pid=742,fd=3))
+tcp   LISTEN 0      511    0.0.0.0:80       0.0.0.0:*     users:(("nginx",pid=911,fd=6))
+tcp   LISTEN 0      511    0.0.0.0:443      0.0.0.0:*     users:(("nginx",pid=911,fd=7))
+tcp   LISTEN 0      151    127.0.0.1:5432    0.0.0.0:*     users:(("postgres",pid=1050,fd=5))
+
+$ ps aux
+root         742  0.0  0.2  15436  9320 ?        Ss   18:12   0:00 /usr/sbin/sshd -D
+www-data     911  0.0  0.3  14320 10400 ?        S    18:12   0:00 nginx: worker process
+postgres    1050  0.1  1.1 219680 35120 ?        Ss   18:12   0:01 /usr/lib/postgresql/15/bin/postgres
+
+$ ls -la /var/www/app
+total 48
+drwxr-xr-x  6 www-data www-data 4096 Sep  9 17:55 .
+drwxr-xr-x  3 root     root     4096 Aug 18 09:12 ..
+-rw-r-----  1 www-data www-data 2841 Sep  8 12:21 app.conf
+-rw-r-----  1 www-data www-data  992 Sep  8 12:21 database.yml
+-rw-------  1 deploy   deploy    419 Sep  7 08:16 id_ed25519
+-rw-r--r--  1 deploy   deploy     99 Sep  7 08:16 id_ed25519.pub
+-rw-r--r--  1 root     root      421 Sep  6 16:40 nginx.conf
+-rw-r-----  1 root     root      612 Sep  6 16:40 web-prod.service
+
+$ systemctl status web-prod.service
+● web-prod.service - Internal Web Application
+     Loaded: loaded (/etc/systemd/system/web-prod.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2026-09-09 18:12:43 CEST; 2h 03min ago
+   Main PID: 1184 (gunicorn)
+      Tasks: 5
+     Memory: 84.1M
+        CPU: 8.413s
+     CGroup: /system.slice/web-prod.service
+             ├─1184 /opt/webapp/venv/bin/python3 /opt/webapp/venv/bin/gunicorn --bind 127.0.0.1:8000 app:application
+             └─1187 /opt/webapp/venv/bin/python3 /opt/webapp/venv/bin/gunicorn --bind 127.0.0.1:8000 app:application
+
+$ cat /etc/ssh/sshd_config | grep -Ev '^#|^$'
+Port 22
+PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys
+AllowUsers deploy adminops
+
+$ sudo -l
+Matching Defaults entries for deploy on web-prod-01:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+User deploy may run the following commands on web-prod-01:
+    (root) NOPASSWD: /usr/bin/systemctl restart web-prod.service
+
+$ ls -la /home/deploy/.ssh
+total 20
+drwx------ 2 deploy deploy 4096 Sep  7 08:16 .
+drwxr-xr-x 5 deploy deploy 4096 Sep  9 17:20 ..
+-rw------- 1 deploy deploy  419 Sep  7 08:16 id_ed25519
+-rw-r--r-- 1 deploy deploy   99 Sep  7 08:16 id_ed25519.pub
+-rw------- 1 deploy deploy  142 Sep  7 08:17 authorized_keys
+-rw-r--r-- 1 deploy deploy  286 Sep  7 08:17 known_hosts
+
+Enumeration completed.

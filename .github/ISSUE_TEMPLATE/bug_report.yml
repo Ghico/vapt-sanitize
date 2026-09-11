@@ -1,0 +1,59 @@
+name: Bug report
+description: Report a reproducible defect using synthetic data only.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Do not include real client data, credentials, tokens, vault files, or decrypted mappings.** Use synthetic reproductions only.
+  - type: input
+    id: version
+    attributes:
+      label: VAPT Sanitizer version
+      placeholder: "1.0.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - CLI
+        - Detector / profile
+        - Security Gate
+        - Engagement Mapping Vault
+        - AI Handoff
+        - Burp extension
+        - Installation / packaging
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened and what did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Synthetic reproduction
+      description: Provide commands and synthetic input only.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: "OS, Python version, Java version, Burp version if relevant"
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety confirmation
+      options:
+        - label: I removed all real client data, secrets, vault files, and identifying engagement information.
+          required: true

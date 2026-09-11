@@ -1,0 +1,14 @@
+POST /api/v1/login HTTP/1.1
+Host: portal.internal.example
+User-Agent: Mozilla/5.0
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.fake.signature
+Cookie: PHPSESSID=burp_fake_session_12345
+X-API-Key: burp_fake_api_key_123456789
+Content-Length: 92
+
+{
+  "username": "administrator",
+  "email": "admin@example.internal",
+  "password": "FakeBurpPassword123!"
+}

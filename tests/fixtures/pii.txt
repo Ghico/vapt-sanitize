@@ -1,0 +1,97 @@
+PII ENUMERATION
+
+# Synthetic test fixture for VAPT Sanitizer.
+# All personal data below is fictitious and created only for sanitizer validation.
+
+[USER DIRECTORY EXPORT]
+
+Username: m.rossi
+Full Name: Mario Rossi
+Email: mario.rossi@cliente-example.it
+Secondary Email: mrossi.private@example.net
+Phone: +39 333 123 4567
+Office Phone: 081 555 0123
+Date of Birth: 15/04/1986
+Fiscal Code: RSSMRA86D15F839X
+Employee ID: EMP-004281
+Department: Amministrazione
+Job Title: Accounting Manager
+
+Username: g.bianchi
+Full Name: Giulia Bianchi
+Email: giulia.bianchi@cliente-example.it
+Phone: +39 347 765 4321
+Date of Birth: 22/11/1991
+Fiscal Code: BNCGLI91S62F839Y
+Employee ID: EMP-004317
+Department: Human Resources
+Job Title: HR Specialist
+
+[CRM RECORD]
+
+{
+  "customer_id": "CUS-2026-000184",
+  "first_name": "Paolo",
+  "last_name": "Verdi",
+  "email": "paolo.verdi@example.org",
+  "phone": "+39 320 111 2233",
+  "address": "Via Roma 123",
+  "city": "Napoli",
+  "postal_code": "80100",
+  "country": "Italy",
+  "tax_id": "VRDPLA80A01F839Z"
+}
+
+[APPLICATION LOG]
+
+2026-09-10T13:42:01Z INFO login user=m.rossi email=mario.rossi@cliente-example.it src_ip=10.70.20.55
+2026-09-10T13:42:03Z INFO profile viewed customer=CUS-2026-000184
+2026-09-10T13:42:05Z INFO password reset requested phone=+39-333-123-4567
+2026-09-10T13:42:07Z DEBUG contact="Giulia Bianchi <giulia.bianchi@cliente-example.it>"
+
+[HTTP REQUEST]
+
+POST /api/v1/customers/184 HTTP/1.1
+Host: crm.internal.example
+X-Forwarded-For: 10.70.20.55
+Content-Type: application/json
+
+{
+  "username": "m.rossi",
+  "name": "Mario Rossi",
+  "email": "mario.rossi@cliente-example.it",
+  "mobile": "+39 333 123 4567",
+  "fiscal_code": "RSSMRA86D15F839X"
+}
+
+[DATABASE ROW]
+
+id=184
+username=m.rossi
+first_name=Mario
+last_name=Rossi
+email=mario.rossi@cliente-example.it
+phone=+393331234567
+address="Via Roma 123, 80100 Napoli (NA)"
+national_id=RSSMRA86D15F839X
+
+[PAYMENT PROFILE - SYNTHETIC]
+
+Cardholder: Mario Rossi
+Card Number: 4111 1111 1111 1111
+Expiry: 12/30
+IBAN: IT60X0542811101000000123456
+Billing Email: mario.rossi@cliente-example.it
+
+[TECHNICAL CONTEXT]
+
+Target hostname: crm.internal.example
+Target IP: 10.70.20.55
+Gateway: 10.70.20.1
+MAC Address: 00:16:3E:12:34:56
+Public reference: https://owasp.org/www-project-top-ten/
+CVE reference: CVE-2021-41773
+Service: nginx 1.24.0
+Port: 443/tcp
+
+Enumeration completed.

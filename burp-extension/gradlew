@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+GRADLE_VERSION="8.14.3"
+GRADLE_SHA256="bd71102213493060956ec229d946beee57158dbd89d0e62b91bca0fa2c5f3531"
+DISTRIBUTION_URL="https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
+
+if ! command -v java >/dev/null 2>&1; then
+  echo "Java not found. Install Java 17 or newer before building the Burp extension." >&2
+  exit 2
+fi
+
+if ! command -v sha256sum >/dev/null 2>&1; then
+  echo "sha256sum not found; refusing to bootstrap Gradle without checksum verification." >&2
+  exit 2
+fi
+
+if ! command -v unzip >/dev/null 2>&1; then
+  echo "unzip not found. Install unzip before building the Burp extension." >&2
+  exit 2
+fi
+
+GRADLE_CACHE_ROOT="${GRADLE_USER_HOME:-${HOME}/.gradle}/vapt-sanitize-bootstrap"
+DIST_DIR="${GRADLE_CACHE_ROOT}/gradle-${GRADLE_VERSION}"
+ZIP_PATH="${GRADLE_CACHE_ROOT}/gradle-${GRADLE_VERSION}-bin.zip"
+
+mkdir -p "$GRADLE_CACHE_ROOT"
+
+verify_zip() {
+  local path="$1"
+  printf '%s  %s\n' "$GRADLE_SHA256" "$path" | sha256sum --check --status
+}
+
+if [[ ! -x "$DIST_DIR/bin/gradle" ]]; then
+  if [[ -f "$ZIP_PATH" ]] && ! verify_zip "$ZIP_PATH"; then
+    echo "[!] Cached Gradle archive failed SHA-256 verification; removing it." >&2
+    rm -f "$ZIP_PATH"
+  fi
+
+  if [[ ! -f "$ZIP_PATH" ]]; then
+    TMP_ZIP="${ZIP_PATH}.part"
+    rm -f "$TMP_ZIP"
+
+    echo "[+] Downloading Gradle ${GRADLE_VERSION} from the official distribution service..."
+    if command -v curl >/dev/null 2>&1; then
+      curl --fail --location --retry 3 --connect-timeout 15 \
+        --output "$TMP_ZIP" "$DISTRIBUTION_URL"
+    elif command -v wget >/dev/null 2>&1; then
+      wget --output-document="$TMP_ZIP" "$DISTRIBUTION_URL"
+    else
+      echo "Neither curl nor wget is available; cannot download Gradle." >&2
+      exit 2
+    fi
+
+    if ! verify_zip "$TMP_ZIP"; then
+      rm -f "$TMP_ZIP"
+      echo "Downloaded Gradle archive failed SHA-256 verification; aborting." >&2
+      exit 3
+    fi
+
+    mv "$TMP_ZIP" "$ZIP_PATH"
+  fi
+
+  if ! verify_zip "$ZIP_PATH"; then
+    echo "Gradle archive failed SHA-256 verification; aborting." >&2
+    exit 3
+  fi
+
+  EXTRACT_DIR="$(mktemp -d "${GRADLE_CACHE_ROOT}/extract.XXXXXX")"
+  cleanup() {
+    rm -rf "$EXTRACT_DIR"
+  }
+  trap cleanup EXIT
+
+  unzip -q "$ZIP_PATH" -d "$EXTRACT_DIR"
+  rm -rf "$DIST_DIR"
+  mv "$EXTRACT_DIR/gradle-${GRADLE_VERSION}" "$DIST_DIR"
+  trap - EXIT
+  cleanup
+fi
+
+exec "$DIST_DIR/bin/gradle" "$@"

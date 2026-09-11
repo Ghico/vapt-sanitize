@@ -1,0 +1,41 @@
+NMAP ENUMERATION
+
+Starting Nmap 7.95 ( https://nmap.org ) at 2026-09-09 16:30 CEST
+
+Nmap scan report for srv-app.interno.local (192.168.56.20)
+Host is up (0.0012s latency).
+Not shown: 995 closed tcp ports (reset)
+
+PORT     STATE SERVICE       VERSION
+22/tcp   open  ssh           OpenSSH 9.6p1 Debian 3 (protocol 2.0)
+80/tcp   open  http          nginx 1.24.0
+443/tcp  open  ssl/http      nginx 1.24.0
+445/tcp  open  microsoft-ds  Windows Server 2022 Standard 20348
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+
+| http-title: Internal Administration Portal
+| http-server-header: nginx/1.24.0
+| ssl-cert: Subject: commonName=admin.interno.local
+| Subject Alternative Name: DNS:admin.interno.local, DNS:srv-app.interno.local
+| Not valid before: 2026-01-15T10:00:00
+|_Not valid after:  2027-01-15T10:00:00
+
+| smb2-security-mode:
+|   3:1:1:
+|_    Message signing enabled but not required
+
+| smb2-time:
+|   date: 2026-09-09T14:30:10
+|_  start_date: N/A
+
+MAC Address: 00:11:22:33:44:55 (Unknown)
+
+Nmap scan report for db01.interno.local (10.10.20.15)
+Host is up (0.0021s latency).
+
+PORT     STATE SERVICE VERSION
+3306/tcp open  mysql   MySQL 8.0.36
+5432/tcp open  postgres PostgreSQL DB 15.6
+
+Service detection performed.
+Nmap done: 2 IP addresses (2 hosts up) scanned in 18.42 seconds

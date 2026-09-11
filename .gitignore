@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+
+# Burp / Gradle
+burp-extension/.gradle/
+burp-extension/build/
+
+# Local VAPT data / vault material
+.env
+*.mapping.enc
+mapping.enc
+master.key
+engagements/
+.vapt-sanitize/
+
+# Local outputs and backups
+*.backup-*
+*.bak
+*.sanitized
+*.ai-prompt.txt
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+
+# Additional developer / CI artifacts
+.coverage
+coverage.xml
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.tox/
+*.log
+*.tmp

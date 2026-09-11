@@ -1,0 +1,25 @@
+GLOBAL:
+  PASSWORD: redact
+  BEARER_TOKEN: redact
+  JWT: redact
+  PRIVATE_KEY: redact
+  AWS_ACCESS_KEY: redact
+  AWS_SECRET_KEY: redact
+  API_KEY: redact
+
+  SESSION: redact
+
+  EMAIL: pseudonymize
+  PRIVATE_IP: pseudonymize
+  HOSTNAME: pseudonymize
+  MAC_ADDRESS: pseudonymize
+  CREDIT_CARD: redact
+
+GENERIC:
+  USERNAME: pseudonymize
+
+BURP:
+  USERNAME: pseudonymize
+
+WINDOWS:
+  USERNAME: preserve

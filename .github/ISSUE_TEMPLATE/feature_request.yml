@@ -1,0 +1,32 @@
+name: Feature request
+description: Propose a security-conscious enhancement.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: Describe the workflow problem this feature would solve.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: security
+    attributes:
+      label: Security implications
+      description: Consider data exposure, Security Gate behavior, vault persistence, and network activity.
+    validations:
+      required: true
+  - type: checkboxes
+    id: data
+    attributes:
+      label: Data hygiene
+      options:
+        - label: This request contains no real client data or secrets.
+          required: true

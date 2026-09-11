@@ -1,0 +1,76 @@
+GENERIC SECURITY TESTING OUTPUT
+
+# Synthetic mixed fixture for VAPT Sanitizer.
+# All values below are fake and created only for sanitizer validation.
+
+[DISCOVERY]
+
+Target: app01.internal.example
+IP Address: 10.80.15.42
+Gateway: 10.80.15.1
+MAC: 00:50:56:AA:BB:CC
+Service: nginx 1.24.0
+Port: 443/tcp
+
+[HTTP]
+
+GET /admin/login HTTP/1.1
+Host: app01.internal.example
+X-Forwarded-For: 10.80.15.42
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYWtlIn0.FAKE_SIGNATURE
+Cookie: sessionid=generic_session_FAKE_123456
+X-API-Key: generic_FAKE_api_key_123456789
+
+[APPLICATION LOG]
+
+2026-09-10T14:10:01Z INFO login user=j.smith email=john.smith@example.internal src_ip=10.80.15.42
+2026-09-10T14:10:02Z DEBUG password=GenericPassword_FAKE_123!
+2026-09-10T14:10:03Z INFO request GET /api/users/42 status=200
+2026-09-10T14:10:04Z DEBUG token=generic-token-value-FAKE
+2026-09-10T14:10:05Z INFO backend=db01.internal.example:5432
+
+[JSON RESPONSE]
+
+{
+  "username": "j.smith",
+  "name": "John Smith",
+  "email": "john.smith@example.internal",
+  "phone": "+39 333 765 4321",
+  "employee_id": "EMP-009931",
+  "role": "administrator"
+}
+
+[CONFIG SNIPPET]
+
+DB_HOST=db01.internal.example
+DB_USER=appsvc
+DB_PASSWORD=GenericDbPassword_FAKE_789!
+DATABASE_URL=postgresql://appsvc:EmbeddedDbPassword_FAKE!@db01.internal.example:5432/prod
+
+API_KEY=generic_config_api_key_FAKE_123456
+CLIENT_SECRET=generic_client_secret_FAKE_987654
+SESSION_TOKEN=generic_session_token_FAKE_654321
+
+[FILES / PATHS]
+
+/etc/nginx/nginx.conf
+/etc/ssh/sshd_config
+/var/www/app/config.yml
+/home/j.smith/.ssh/authorized_keys
+C:\Program Files\Generic Agent\agent.exe
+
+[PUBLIC REFERENCES]
+
+OWASP: https://owasp.org/www-project-top-ten/
+NVD: https://nvd.nist.gov/vuln/detail/CVE-2021-41773
+Vendor docs: https://nginx.org/en/docs/
+CVE: CVE-2021-41773
+
+[CLOUD-LIKE IDENTIFIERS]
+
+Account: 123456789012
+Resource: i-0abc123def4567890
+Region: eu-west-1
+Endpoint: ec2.eu-west-1.amazonaws.com
+
+Enumeration completed.

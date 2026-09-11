@@ -1,0 +1,148 @@
+AWS ENUMERATION
+
+$ aws sts get-caller-identity
+{
+    "UserId": "AIDAEXAMPLEUSER1234",
+    "Account": "123456789012",
+    "Arn": "arn:aws:iam::123456789012:user/redteam-audit"
+}
+
+$ aws configure list
+      Name                    Value             Type    Location
+      ----                    -----             ----    --------
+   profile                 <not set>             None    None
+access_key     AKIAIOSFODNN7EXAMPLE shared-credentials-file
+secret_key     wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY shared-credentials-file
+    region                eu-west-1      config-file    ~/.aws/config
+
+$ env | grep AWS_
+AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+AWS_SESSION_TOKEN=IQoJb3JpZ2luX2VjEExampleSyntheticSessionTokenForTestingOnly1234567890
+AWS_DEFAULT_REGION=eu-west-1
+
+$ aws iam list-attached-user-policies --user-name redteam-audit
+{
+    "AttachedPolicies": [
+        {
+            "PolicyName": "ReadOnlyAccess",
+            "PolicyArn": "arn:aws:iam::aws:policy/ReadOnlyAccess"
+        }
+    ]
+}
+
+$ aws s3api list-buckets
+{
+    "Buckets": [
+        {
+            "Name": "acme-prod-backups",
+            "CreationDate": "2026-05-14T09:10:11+00:00"
+        },
+        {
+            "Name": "acme-internal-logs",
+            "CreationDate": "2026-06-02T12:44:09+00:00"
+        }
+    ],
+    "Owner": {
+        "DisplayName": "acme-cloud-admin",
+        "ID": "79a59df900b949e55d96a1e698fba64dEXAMPLE"
+    }
+}
+
+$ aws s3api get-bucket-location --bucket acme-prod-backups
+{
+    "LocationConstraint": "eu-west-1"
+}
+
+$ aws ec2 describe-instances --region eu-west-1
+{
+    "Reservations": [
+        {
+            "Instances": [
+                {
+                    "InstanceId": "i-0abc123def4567890",
+                    "PrivateIpAddress": "10.60.12.25",
+                    "PrivateDnsName": "ip-10-60-12-25.eu-west-1.compute.internal",
+                    "PublicDnsName": "ec2-18-202-10-55.eu-west-1.compute.amazonaws.com",
+                    "VpcId": "vpc-0a1b2c3d4e5f67890",
+                    "SubnetId": "subnet-0123456789abcdef0",
+                    "IamInstanceProfile": {
+                        "Arn": "arn:aws:iam::123456789012:instance-profile/WebServerRole",
+                        "Id": "AIPAXAMPLEINSTANCE123"
+                    },
+                    "Tags": [
+                        {"Key": "Name", "Value": "prod-web-01"},
+                        {"Key": "Environment", "Value": "production"}
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+$ aws ec2 describe-security-groups --group-ids sg-0123456789abcdef0
+{
+    "SecurityGroups": [
+        {
+            "GroupId": "sg-0123456789abcdef0",
+            "GroupName": "prod-web-sg",
+            "Description": "Production web security group",
+            "VpcId": "vpc-0a1b2c3d4e5f67890",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 443,
+                    "ToPort": 443,
+                    "IpRanges": [
+                        {"CidrIp": "0.0.0.0/0"}
+                    ]
+                },
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "IpRanges": [
+                        {"CidrIp": "10.60.0.0/16"}
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+$ aws lambda list-functions
+{
+    "Functions": [
+        {
+            "FunctionName": "invoice-processor-prod",
+            "FunctionArn": "arn:aws:lambda:eu-west-1:123456789012:function:invoice-processor-prod",
+            "Runtime": "python3.12",
+            "Role": "arn:aws:iam::123456789012:role/lambda-invoice-role",
+            "Handler": "app.handler"
+        }
+    ]
+}
+
+$ aws secretsmanager list-secrets
+{
+    "SecretList": [
+        {
+            "ARN": "arn:aws:secretsmanager:eu-west-1:123456789012:secret:prod/database/password-AbCdEf",
+            "Name": "prod/database/password",
+            "Description": "Production database credentials"
+        }
+    ]
+}
+
+$ curl -s http://169.254.169.254/latest/meta-data/iam/security-credentials/WebServerRole
+{
+    "Code": "Success",
+    "LastUpdated": "2026-09-10T11:32:14Z",
+    "Type": "AWS-HMAC",
+    "AccessKeyId": "ASIAEXAMPLESESSION1234",
+    "SecretAccessKey": "SyntheticSecretAccessKeyForTestingOnlyEXAMPLE123456",
+    "Token": "SyntheticTemporarySessionTokenForTestingOnlyEXAMPLE987654321",
+    "Expiration": "2026-09-10T17:32:14Z"
+}
+
+Enumeration completed.

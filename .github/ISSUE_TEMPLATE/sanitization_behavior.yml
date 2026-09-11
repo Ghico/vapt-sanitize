@@ -1,0 +1,67 @@
+name: Sanitization false positive / false negative
+description: Report detector behavior using synthetic input only.
+title: "[Sanitization]: "
+labels: ["sanitization"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Never paste real assessment data here.** Replace every value with a synthetic equivalent before submitting.
+  - type: dropdown
+    id: profile
+    attributes:
+      label: Profile
+      options:
+        - GENERIC
+        - NMAP
+        - BURP
+        - GOBUSTER
+        - NUCLEI
+        - WINDOWS
+        - LINUX
+        - AWS
+        - SECRETS
+        - PII
+        - Auto-detection
+    validations:
+      required: true
+  - type: dropdown
+    id: behavior
+    attributes:
+      label: Behavior type
+      options:
+        - False negative (sensitive value was not protected)
+        - False positive (technical/public value was protected unexpectedly)
+        - Wrong category
+        - Placeholder inconsistency
+        - Security Gate mismatch
+    validations:
+      required: true
+  - type: textarea
+    id: input
+    attributes:
+      label: Synthetic input
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual sanitized output
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected output
+      render: text
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety confirmation
+      options:
+        - label: All values in this report are synthetic and contain no real credentials, client identifiers, or vault material.
+          required: true
