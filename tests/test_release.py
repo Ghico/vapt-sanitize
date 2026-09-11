@@ -17,7 +17,7 @@ class TestReleaseMetadata(unittest.TestCase):
 
     def test_runtime_dependencies_are_frozen(self):
         requirements = (ROOT / "requirements.txt").read_text().splitlines()
-        self.assertEqual(requirements, ["PyYAML==6.0.3", "cryptography==46.0.4"])
+        self.assertEqual(requirements, ["PyYAML==6.0.3", "cryptography==50.0.1"])
         pyproject = (ROOT / "pyproject.toml").read_text()
         for requirement in requirements:
             self.assertIn(f'"{requirement}"', pyproject)

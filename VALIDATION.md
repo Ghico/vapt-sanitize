@@ -1,4 +1,4 @@
-# Validation record - v1.0.0 RC2
+# Validation record - v1.0.0 public baseline
 
 Date: 2026-09-11
 
@@ -14,15 +14,16 @@ Date: 2026-09-11
 - Total: **181 OK**
 - Synthetic auto-detection matrix: **10/10 PASS**
 
-## Previously validated on operator Kali workspace
+## Runtime/build validation on Kali
 
-- 174/174 tests OK before release-only checks
-- Burp extension: BUILD SUCCESSFUL
-- CLI/Nmap -> Engagement Vault -> Burp placeholder reuse confirmed
+- `cryptography`: **50.0.1**
+- Fernet import/runtime: **OK**
+- CLI/Nmap -> Engagement Vault -> Burp placeholder reuse: **confirmed**
+- Burp extension: **BUILD SUCCESSFUL**
 
-## RC2 promotion gate
+## Public release gate
 
-Before promoting this RC2 to the final v1.0.0 release, run on the target Kali workspace:
+The public `v1.0.0` baseline must satisfy all of the following before tagging:
 
 ```bash
 ./scripts/install.sh
@@ -30,9 +31,14 @@ Before promoting this RC2 to the final v1.0.0 release, run on the target Kali wo
 ./scripts/build-burp.sh
 ```
 
-Expected: 181 tests OK, 10/10 auto-detection, Burp BUILD SUCCESSFUL. No system Gradle installation is required.
+Expected result:
 
+```text
+181/181 tests OK
+Auto-detection: 10/10 PASS
+Burp extension: BUILD SUCCESSFUL
+```
 
-## RC2 packaging fix
+## Packaging note
 
-RC1 passed 180 tests and the 10/10 auto-detection matrix on Kali, but `scripts/build-burp.sh` required a system Gradle installation. RC2 adds a pinned Gradle 8.14.3 bootstrap with SHA-256 verification; sanitizer behavior, policies and detectors are unchanged.
+The public release baseline no longer relies on the earlier internal RC directory naming. GitHub clones should use the repository directory `vapt-sanitize`; release-asset checksums are published with the final GitHub Release assets.

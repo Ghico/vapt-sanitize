@@ -1,37 +1,42 @@
 # VAPT Sanitizer v1.0.0 - Release Notes
 
-Data RC2: 2026-09-11
+Date: 2026-09-11
 
-Questa release congela la baseline tecnica validata del progetto. Non introduce nuovi detector rispetto alla baseline gia testata: formalizza installazione, versioning, dipendenze, fixture, build Burp e controlli di release.
+VAPT Sanitizer v1.0.0 is the first public stable release of the project. It formalizes the validated sanitizer core, installation workflow, frozen dependencies, synthetic fixtures, Burp Suite integration, encrypted engagement mapping, and release checks.
 
-## Confini di sicurezza
+## Security boundaries
 
-- Il sanitizer non sostituisce il giudizio dell'operatore.
-- I dati devono provenire da assessment autorizzati.
-- Un `PASS` indica che i controlli implementati non hanno rilevato condizioni che richiedono REVIEW/BLOCKED; non e una garanzia matematica di anonimizzazione assoluta.
-- Il Mapping Vault e cifrato a riposo, ma la workstation locale resta parte del trust boundary.
+- The sanitizer does not replace operator judgment.
+- Input data must originate from authorized security assessments.
+- `PASS` means the implemented controls did not identify a condition requiring `REVIEW` or `BLOCKED`; it is not a mathematical guarantee of complete anonymization.
+- The Engagement Mapping Vault is encrypted at rest, but the local workstation remains part of the trust boundary.
 
-## Compatibilita di riferimento
+## Reference compatibility
 
 - Python >= 3.11
 - PyYAML 6.0.3
-- cryptography 46.0.4
+- cryptography 50.0.1
 - Java >= 17
 - Burp Montoya API 2026.7
+- Gradle bootstrap 8.14.3
 
-## Upgrade da workspace esistente
+## Public release validation
 
-Prima di sostituire file, eseguire un backup del repository. Non cancellare:
+- 181/181 tests OK
+- Synthetic auto-detection matrix: 10/10 PASS
+- `python -m vapt_sanitize --version`: `VAPT Sanitizer 1.0.0`
+- Engagement Vault / Fernet runtime verified with cryptography 50.0.1
+- Burp extension: BUILD SUCCESSFUL
+
+## Dependency security refresh
+
+Before the public `v1.0.0` tag was created, the frozen `cryptography` dependency was refreshed to 50.0.1 and the complete validation gate was rerun successfully. No sanitizer detector, policy, Security Gate, or Engagement Vault semantics were intentionally changed by this dependency refresh.
+
+## Upgrade from an existing workspace
+
+Do not delete the external local vault material when updating the repository:
 
 - `~/.config/vapt-sanitize/master.key`
 - `~/.local/share/vapt-sanitize/engagements/`
 
-Sono esterni al repository e non fanno parte dello ZIP di release.
-
-## Validazione RC2
-
-- 181 test OK (somma dei moduli di regressione)
-- auto-detection fixture: 10/10 PASS
-- `python -m vapt_sanitize --version`: `VAPT Sanitizer 1.0.0`
-- sintassi Python e Bash verificata
-- RC1 ha mostrato un difetto di packaging: mancava un Gradle bootstrap. RC2 include `burp-extension/gradlew`, fissato a Gradle 8.14.3 con verifica SHA-256; la build Burp deve essere confermata sul workspace Kali prima della promozione a release finale
+Those paths are outside the repository and are not part of the public release source.
