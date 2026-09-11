@@ -110,55 +110,40 @@ Nmap / Burp / Nuclei / Gobuster / Windows / Linux / AWS / log
 
 Non è richiesta un'installazione di sistema di Gradle. Il bootstrap `burp-extension/gradlew` incluso usa Gradle `8.14.3` e verifica con SHA-256 la distribuzione scaricata.
 
-## Nota sulla Stable
-
-Lo ZIP Stable è byte-per-byte identico alla Release Candidate che ha superato il gate finale di validazione. Per questo motivo l'archivio estrae ancora la directory:
-
-```text
-vapt-sanitize-v1.0.0-rc2/
-```
-
-L'applicazione riporta comunque:
-
-```text
-VAPT Sanitizer 1.0.0
-```
-
 ## Installazione
 
+Per una installazione pubblica da GitHub:
+
 ```bash
-unzip vapt-sanitize-v1.0.0.zip
-cd vapt-sanitize-v1.0.0-rc2
+git clone https://github.com/Ghico/vapt-sanitize.git
+cd vapt-sanitize
 ./scripts/install.sh
 ```
 
-L'installer:
+Lo script di installazione:
 
 1. crea `.venv`;
-2. installa il package in editable mode;
+2. installa il pacchetto in editable mode;
 3. installa le dipendenze congelate;
 4. verifica il backend clipboard;
-5. esegue la regression suite;
-6. mostra la versione installata.
+5. esegue la suite di regressione;
+6. stampa la versione installata.
 
 Dipendenze Python congelate:
 
 ```text
 PyYAML==6.0.3
-cryptography==46.0.4
+cryptography==50.0.1
 ```
 
-Verifica:
+Verifica manuale:
 
 ```bash
 ./.venv/bin/python -m vapt_sanitize --version
+# VAPT Sanitizer 1.0.0
+
 ./.venv/bin/vapt-sanitize --version
-```
-
-Output atteso:
-
-```text
-VAPT Sanitizer 1.0.0
+# VAPT Sanitizer 1.0.0
 ```
 
 ## Validazione della release
@@ -420,10 +405,10 @@ Per default l'estensione cerca:
 ~/vapt-sanitize/.venv/bin/python
 ```
 
-Con un'installazione versionata come `~/vapt-sanitize-v1.0.0-rc2`, usare un rename/symlink operativo oppure avviare Burp con:
+Se il repository e installato in una directory diversa da `~/vapt-sanitize`, usare un symlink operativo oppure avviare Burp con percorsi espliciti:
 
 ```bash
-export VAPT_SANITIZE_HOME="$HOME/vapt-sanitize-v1.0.0-rc2"
+export VAPT_SANITIZE_HOME="$HOME/vapt-sanitize"
 export VAPT_SANITIZE_PYTHON="$VAPT_SANITIZE_HOME/.venv/bin/python"
 burpsuite
 ```
@@ -542,11 +527,7 @@ Burp extension BUILD SUCCESSFUL
 JAR: vapt-sanitize-burp-1.0.0.jar
 ```
 
-SHA-256 ZIP Stable:
-
-```text
-2ee9928dddb789f1f5fda3479ad86e0c0540deabbe3bf97c5ed82cb666479c84
-```
+Lo SHA-256 dell'artefatto di release viene pubblicato insieme alla GitHub Release dopo la creazione dell'artefatto taggato finale.
 
 ## Principio operativo
 

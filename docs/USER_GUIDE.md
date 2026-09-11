@@ -15,7 +15,7 @@ Local-first security gateway for authorized VAPT -\> AI workflows
 
 **SHA-256 stable ZIP**
 
-2ee9928dddb789f1f5fda3479ad86e0c0540deabbe3bf97c5ed82cb666479c84
+Published with the GitHub Release asset
 
 # Contents
 
@@ -319,14 +319,14 @@ documented procedure.
 | Item                | Details                                                    |
 |---------------------|------------------------------------------------------------|
 | Python              | 3.11 or later with venv support                            |
-| Python dependencies | PyYAML 6.0.3; cryptography 46.0.4                          |
+| Python dependencies | PyYAML 6.0.3; cryptography 50.0.1                          |
 | Clipboard Linux     | xclip / xsel / wl-copy optional                            |
 | Burp build          | Java 17+, unzip, curl or wget                              |
 | Gradle              | Not required system-wide; Gradle 8.14.3 bootstrap included |
 
 ## 5.2 Stable installation
 
-| Directory-name note: The Stable ZIP is byte-for-byte identical to the validated RC2, so it still extracts to vapt-sanitize-v1.0.0-rc2/. The application itself still reports version 1.0.0. |
+| Installation note: for a public GitHub installation, clone the repository into `vapt-sanitize` and run `./scripts/install.sh`. Release-asset checksums are published with the final GitHub Release. |
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 
 <table>
@@ -335,8 +335,8 @@ documented procedure.
 </colgroup>
 <thead>
 <tr class="header">
-<th>unzip vapt-sanitize-v1.0.0.zip<br />
-cd vapt-sanitize-v1.0.0-rc2<br />
+<th>git clone https://github.com/Ghico/vapt-sanitize.git<br />
+cd vapt-sanitize<br />
 ./scripts/install.sh</th>
 </tr>
 </thead>
@@ -393,7 +393,7 @@ variables.
 </colgroup>
 <thead>
 <tr class="header">
-<th>export VAPT_SANITIZE_HOME="$HOME/vapt-sanitize-v1.0.0-rc2"<br />
+<th>export VAPT_SANITIZE_HOME="$HOME/vapt-sanitize"<br />
 export VAPT_SANITIZE_PYTHON="$VAPT_SANITIZE_HOME/.venv/bin/python"<br />
 burpsuite</th>
 </tr>
@@ -745,7 +745,7 @@ Burp: Host: srv-app.internal.local -&gt; Host: [HOSTNAME_001]</th>
 </colgroup>
 <thead>
 <tr class="header">
-<th>export VAPT_SANITIZE_HOME="$HOME/vapt-sanitize-v1.0.0-rc2"<br />
+<th>export VAPT_SANITIZE_HOME="$HOME/vapt-sanitize"<br />
 export VAPT_SANITIZE_PYTHON="$VAPT_SANITIZE_HOME/.venv/bin/python"<br />
 burpsuite</th>
 </tr>
@@ -940,7 +940,7 @@ client outputs / sanitized reports / correlatable notes</th>
 | Burp build              | BUILD SUCCESSFUL             |
 | JAR                     | vapt-sanitize-burp-1.0.0.jar |
 | Python                  | \>= 3.11                     |
-| cryptography            | 46.0.4                       |
+| cryptography            | 50.0.1                       |
 | PyYAML                  | 6.0.3                        |
 | Java                    | \>= 17                       |
 | Gradle bootstrap        | 8.14.3                       |
@@ -956,14 +956,14 @@ client outputs / sanitized reports / correlatable notes</th>
 <tr class="header">
 <th>vapt-sanitize-v1.0.0.zip<br />
 SHA-256:<br />
-2ee9928dddb789f1f5fda3479ad86e0c0540deabbe3bf97c5ed82cb666479c84</th>
+Published with the GitHub Release asset</th>
 </tr>
 </thead>
 <tbody>
 </tbody>
 </table>
 
-| Golden baseline: Stable was promoted byte-for-byte from RC2 after it passed 181 tests, 10/10 auto-detection, and BUILD SUCCESSFUL. New functionality should start from a subsequent version without altering the v1.0.0 artifact. |
+| Public baseline: v1.0.0 was validated with 181 tests, 10/10 auto-detection, cryptography 50.0.1, and BUILD SUCCESSFUL. Future functionality should start from a subsequent version. |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 
 # Appendix A - Quick commands

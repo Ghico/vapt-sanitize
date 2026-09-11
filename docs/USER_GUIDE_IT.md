@@ -15,7 +15,7 @@ Local-first security gateway for authorized VAPT -\> AI workflows
 
 **SHA-256 stable ZIP**
 
-2ee9928dddb789f1f5fda3479ad86e0c0540deabbe3bf97c5ed82cb666479c84
+Pubblicato insieme all'artefatto della GitHub Release
 
 # Indice
 
@@ -320,14 +320,14 @@ procedura documentata.
 | **Voce**          | **Dettaglio**                                                       |
 |-------------------|---------------------------------------------------------------------|
 | Python            | 3.11 o superiore con supporto venv                                  |
-| Dipendenze Python | PyYAML 6.0.3; cryptography 46.0.4                                   |
+| Dipendenze Python | PyYAML 6.0.3; cryptography 50.0.1                                   |
 | Clipboard Linux   | xclip / xsel / wl-copy opzionale                                    |
 | Burp build        | Java 17+, unzip, curl oppure wget                                   |
 | Gradle            | Non richiesto a livello di sistema; bootstrap Gradle 8.14.3 incluso |
 
 ## 5.2 Installazione Stable
 
-| **Nota sul nome directory:** Lo ZIP Stable è identico byte-per-byte alla RC2 validata, quindi estrae ancora vapt-sanitize-v1.0.0-rc2/. L’applicazione riporta comunque versione 1.0.0. |
+| **Nota installazione:** per una installazione pubblica da GitHub, clonare il repository in `vapt-sanitize` ed eseguire `./scripts/install.sh`. Lo SHA-256 degli artefatti viene pubblicato con la GitHub Release finale. |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 
 <table>
@@ -336,8 +336,8 @@ procedura documentata.
 </colgroup>
 <thead>
 <tr class="header">
-<th>unzip vapt-sanitize-v1.0.0.zip<br />
-cd vapt-sanitize-v1.0.0-rc2<br />
+<th>git clone https://github.com/Ghico/vapt-sanitize.git<br />
+cd vapt-sanitize<br />
 ./scripts/install.sh</th>
 </tr>
 </thead>
@@ -394,7 +394,7 @@ d’ambiente esplicite.
 </colgroup>
 <thead>
 <tr class="header">
-<th>export VAPT_SANITIZE_HOME="$HOME/vapt-sanitize-v1.0.0-rc2"<br />
+<th>export VAPT_SANITIZE_HOME="$HOME/vapt-sanitize"<br />
 export VAPT_SANITIZE_PYTHON="$VAPT_SANITIZE_HOME/.venv/bin/python"<br />
 burpsuite</th>
 </tr>
@@ -747,7 +747,7 @@ Burp: Host: srv-app.interno.local -&gt; Host: [HOSTNAME_001]</th>
 </colgroup>
 <thead>
 <tr class="header">
-<th>export VAPT_SANITIZE_HOME="$HOME/vapt-sanitize-v1.0.0-rc2"<br />
+<th>export VAPT_SANITIZE_HOME="$HOME/vapt-sanitize"<br />
 export VAPT_SANITIZE_PYTHON="$VAPT_SANITIZE_HOME/.venv/bin/python"<br />
 burpsuite</th>
 </tr>
@@ -943,7 +943,7 @@ client outputs / sanitized reports / notes correlabili</th>
 | Burp build              | BUILD SUCCESSFUL             |
 | JAR                     | vapt-sanitize-burp-1.0.0.jar |
 | Python                  | \>= 3.11                     |
-| cryptography            | 46.0.4                       |
+| cryptography            | 50.0.1                       |
 | PyYAML                  | 6.0.3                        |
 | Java                    | \>= 17                       |
 | Gradle bootstrap        | 8.14.3                       |
@@ -959,14 +959,14 @@ client outputs / sanitized reports / notes correlabili</th>
 <tr class="header">
 <th>vapt-sanitize-v1.0.0.zip<br />
 SHA-256:<br />
-2ee9928dddb789f1f5fda3479ad86e0c0540deabbe3bf97c5ed82cb666479c84</th>
+Pubblicato insieme all'artefatto della GitHub Release</th>
 </tr>
 </thead>
 <tbody>
 </tbody>
 </table>
 
-| **Golden baseline:** La Stable è stata promossa byte-per-byte dalla RC2 che ha superato 181 test, 10/10 auto-detection e BUILD SUCCESSFUL. Per nuove funzionalità è preferibile partire da una versione successiva senza alterare l’artefatto v1.0.0. |
+| **Baseline pubblica:** v1.0.0 è stata validata con 181 test, 10/10 auto-detection, cryptography 50.0.1 e BUILD SUCCESSFUL. Le funzionalità future devono partire da una versione successiva. |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 
 # Appendice A - Comandi rapidi
